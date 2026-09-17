@@ -38,32 +38,32 @@ function Team() {
 
   return (
     <section className="team-section-dark" id="team">
-      <div className="team-header-dark">
-        <h2>PROFESSIONAL TEAM</h2>
-      </div>
+        <div className="team-header-dark">
+          <h2>PROFESSIONAL TEAM</h2>
+        </div>
 
-      <div className="team-accordion-container">
-        {teamMembers.map((member, index) => (
-          <div 
-            key={index}
-            className={`team-accordion-item ${activeTeam === index ? 'active' : ''}`}
-            onMouseEnter={() => setActiveTeam(index)}
-          >
-            <img src={member.image} alt={member.name} className="team-accordion-img" />
-            
-            <div className="team-accordion-info">
-              <span className="team-role-small">{member.role}</span>
-              <h3 className="team-name-large">{member.name}</h3>
-              <div className="team-socials">
-                <span>FB</span>
-                <span>TW</span>
-                <span>BE</span>
+        <div className="team-accordion-container">
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              className={`team-accordion-item ${activeTeam === index ? 'active' : ''}`}
+              onMouseEnter={() => setActiveTeam(index)}
+            >
+              <img src={member.image} alt={member.name} className="team-accordion-img" />
+
+              <div className="team-accordion-info">
+                <span className="team-role-small">{member.role}</span>
+                <h3 className="team-name-large">{member.name}</h3>
+                <div className="team-socials">
+                  <span>FB</span>
+                  <span>TW</span>
+                  <span>BE</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
   );
 }
 

@@ -29,7 +29,10 @@ function Insights() {
   return (
     <section className="about-services-dark" id="insights">
       <div className="about-services-left">
-        <h2>WE PROVIDE<br/>VARIOUS SERVICES</h2>
+        <h4 className="team-role-small" style={{ color: '#ea580c', marginBottom: '1rem' }}>Insights & Innovation</h4>
+        <h2 style={{ fontSize: '3rem', fontWeight: '800', lineHeight: '1.2', textTransform: 'uppercase' }}>
+          What's happening in tech ?<br />We decode it for you
+        </h2>
       </div>
       
       <div className="about-services-right">

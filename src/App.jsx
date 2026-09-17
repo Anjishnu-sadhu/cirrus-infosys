@@ -3,7 +3,7 @@ import './index.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Services from './components/Services';
+import Services2 from './components/Services2';
 import Insights from './components/Insights';
 import Team from './components/Team';
 import Blog from './components/Blog';
@@ -18,7 +18,7 @@ function App() {
       <Navbar />
       <Hero />
       <About />
-      <Services />
+      <Services2 />
       <Insights />
       <Team />
       <Blog />
