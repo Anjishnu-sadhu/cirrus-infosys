@@ -96,7 +96,7 @@ function Footer() {
         {/* Copyright Section */}
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', color: '#888', fontSize: '0.9rem', marginBottom: '4rem' }}>
           <p>&copy;2025 Cirrus Infosys All rights reserved.</p>
-          <p>Design by Anjishnu Sadhu - Powered by Cirrus</p>
+          <p>Design by Anjishnu Sadhu - Powered by Cirrus Infosys</p>
         </div>
 
         {/* Massive Bottom Text */}
