@@ -3,14 +3,14 @@ import React from 'react';
 const FooterLink = ({ href, children }) => {
   return (
     <li>
-      <a 
-        href={href} 
-        style={{ 
-          color: '#888', 
-          textDecoration: 'none', 
-          fontSize: '0.95rem', 
-          transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)', 
-          display: 'inline-block' 
+      <a
+        href={href}
+        style={{
+          color: '#888',
+          textDecoration: 'none',
+          fontSize: '0.95rem',
+          transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+          display: 'inline-block'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.color = '#fff';
@@ -45,9 +45,10 @@ function Footer() {
 
           {/* Brand Info */}
           <div style={{ flex: '1', minWidth: '300px', maxWidth: '400px' }}>
-            <h2 style={{ color: '#fff', fontSize: '2rem', fontWeight: '800', marginBottom: '1.5rem', letterSpacing: '1px' }}>
-              CIRRUS INFOSYS
-            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
+              <img src="/Screenshot_2026-09-17_163646-removebg-preview.png" alt="Cirrus Logo Icon" style={{ height: '60px', filter: 'brightness(0) invert(1)' }} />
+              <img src="/Screenshot_2026-09-17_163447-removebg-preview.png" alt="Cirrus Infosys Text" style={{ height: '44px', filter: 'brightness(0) invert(1)' }} />
+            </div>
             <p style={{ color: '#888', fontSize: '1rem', lineHeight: '1.6' }}>
               Cirrus Infosys is a full-service IT agency specializing in custom web, mobile, and software solutions for modern businesses.
             </p>
@@ -120,14 +121,14 @@ function Footer() {
             transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
             cursor: 'default'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.02) translateY(-10px)';
-            e.currentTarget.style.letterSpacing = '5px';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1) translateY(0)';
-            e.currentTarget.style.letterSpacing = '-2px';
-          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.02) translateY(-10px)';
+              e.currentTarget.style.letterSpacing = '5px';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1) translateY(0)';
+              e.currentTarget.style.letterSpacing = '-2px';
+            }}
           >
             CIRRUS
           </h1>

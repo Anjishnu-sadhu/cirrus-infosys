@@ -22,8 +22,8 @@ function Services2() {
       <div className="about-services-right">
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(3, 1fr)', 
-          gap: '3rem 2rem' 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gap: '2rem' 
         }}>
           {gridServices.map((item, index) => (
             <div 

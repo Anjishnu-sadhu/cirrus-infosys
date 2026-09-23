@@ -29,6 +29,13 @@ const testimonialsData = [
 
 function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handlePrev = () => {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
@@ -38,10 +45,16 @@ function Testimonials() {
     if (currentIndex < testimonialsData.length - 1) setCurrentIndex(currentIndex + 1);
   };
 
+  const isMobile = windowWidth <= 768;
+  const cardWidth = windowWidth > 1024 ? 850 : windowWidth > 768 ? 600 : windowWidth * 0.9;
+  const gap = 32;
+  const itemWidth = cardWidth + gap;
+  const offset = (windowWidth / 2) - (cardWidth / 2);
+
   return (
     <section className="about-services-dark" id="testimonials" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '6rem 0', overflow: 'hidden' }}>
       <div style={{ marginBottom: '4rem', maxWidth: '800px', padding: '0 2rem' }}>
-        <h2 style={{ fontSize: '3.5rem', fontWeight: '800', lineHeight: '1.2', marginBottom: '1.5rem', color: '#fff' }}>
+        <h2 style={{ fontSize: isMobile ? '2.5rem' : '3.5rem', fontWeight: '800', lineHeight: '1.2', marginBottom: '1.5rem', color: '#fff' }}>
           Hear from Brands<br/>That Trust Us
         </h2>
         <p style={{ fontSize: '1.1rem', color: '#aaa', fontWeight: '400', lineHeight: '1.6', maxWidth: '600px', margin: '0 auto' }}>
@@ -56,10 +69,9 @@ function Testimonials() {
       }}>
         <div style={{
           display: 'flex',
-          gap: '2rem',
+          gap: `${gap}px`,
           transition: 'transform 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
-          // 850px (card width) + 32px (gap) = 882px
-          transform: `translateX(calc(50vw - 425px - ${currentIndex * 882}px))`
+          transform: `translateX(calc(${offset}px - ${currentIndex * itemWidth}px))`
         }}>
           {testimonialsData.map((item, index) => {
             const isActive = index === currentIndex;
@@ -70,13 +82,14 @@ function Testimonials() {
                 onClick={() => setCurrentIndex(index)}
                 style={{ 
                   flexShrink: 0,
-                  width: '850px',
-                  height: '400px',
+                  width: `${cardWidth}px`,
+                  minHeight: isMobile ? 'auto' : '400px',
                   background: isActive ? 'linear-gradient(145deg, rgba(35,35,35,0.8), rgba(15,15,15,0.9))' : 'rgba(20,20,20,0.5)', 
                   backdropFilter: 'blur(10px)',
                   borderRadius: '24px', 
                   border: isActive ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
                   display: 'flex', 
+                  flexDirection: isMobile ? 'column' : 'row',
                   overflow: 'hidden',
                   opacity: isActive ? 1 : 0.4,
                   transform: isActive ? 'scale(1.02)' : 'scale(0.92)',
@@ -86,8 +99,8 @@ function Testimonials() {
                 }}
               >
                 {/* Left Text Content */}
-                <div style={{ flex: '1', padding: '3.5rem', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '3rem' }}>
+                <div style={{ flex: '1', padding: isMobile ? '2rem 1.5rem' : '3.5rem', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: isMobile ? '1.5rem' : '3rem' }}>
                     <svg viewBox="0 0 24 24" width="28" height="28" fill={isActive ? '#fff' : '#666'}><path d="M12 2L15 9l7 1-5 5 1 7-7-4-7 4 1-7-5-5 7-1z"/></svg>
                     <span style={{ color: isActive ? '#fff' : '#666', fontSize: '1.2rem', fontWeight: '600' }}>{item.company}</span>
                   </div>
@@ -95,7 +108,7 @@ function Testimonials() {
                   <h4 style={{ fontSize: '1.3rem', fontWeight: '700', color: isActive ? '#fff' : '#888', marginBottom: '1rem', transition: 'color 0.5s ease' }}>
                     {item.title}
                   </h4>
-                  <p style={{ fontSize: '1.1rem', color: isActive ? '#ccc' : '#666', lineHeight: '1.6', marginBottom: '2.5rem', transition: 'color 0.5s ease' }}>
+                  <p style={{ fontSize: '1.1rem', color: isActive ? '#ccc' : '#666', lineHeight: '1.6', marginBottom: isMobile ? '1.5rem' : '2.5rem', transition: 'color 0.5s ease' }}>
                     "{item.quote}"
                   </p>
                   
@@ -103,21 +116,23 @@ function Testimonials() {
                 </div>
 
                 {/* Right Image Content */}
-                <div style={{ flex: '1', padding: '1rem', display: 'flex' }}>
-                  <img 
-                    src={item.image} 
-                    alt={item.author} 
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover', 
-                      borderRadius: '16px', 
-                      filter: 'grayscale(100%)',
-                      opacity: isActive ? 1 : 0.1,
-                      transition: 'opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1)'
-                    }} 
-                  />
-                </div>
+                {!isMobile && (
+                  <div style={{ flex: '1', padding: '1rem', display: 'flex' }}>
+                    <img 
+                      src={item.image} 
+                      alt={item.author} 
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover', 
+                        borderRadius: '16px', 
+                        filter: 'grayscale(100%)',
+                        opacity: isActive ? 1 : 0.1,
+                        transition: 'opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1)'
+                      }} 
+                    />
+                  </div>
+                )}
               </div>
             );
           })}

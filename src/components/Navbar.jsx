@@ -1,87 +1,94 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const NavLink = ({ href, children, isActive }) => {
-  return (
+function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Helper component for nav links
+  const NavLink = ({ href, children, isActive }) => (
     <li>
-      <a 
-        href={href} 
-        className={isActive ? "active" : ""}
-        style={{
-          display: 'inline-block',
-          transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)'
-        }}
-        onMouseEnter={(e) => {
-          if (!isActive) {
-            e.currentTarget.style.color = '#ea580c';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isActive) {
-            e.currentTarget.style.color = '';
-            e.currentTarget.style.transform = 'translateY(0)';
-          }
-        }}
-      >
+      <a href={href} className={`nav-item-link ${isActive ? 'active' : ''}`}>
         {children}
+        {isActive && <span className="nav-dot"></span>}
       </a>
     </li>
   );
-};
 
-function Navbar() {
-  return (
-    <nav className="navbar new-navbar" style={{ maxWidth: '100%' }}>
-      <div className="logo-container">
-        <div 
-          className="new-logo" 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '1rem',
-            transition: 'transform 0.4s ease',
-            cursor: 'pointer'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          <img
-            src="/Screenshot_2026-09-17_163646-removebg-preview.png"
-            alt="Cirrus Logo Icon"
-            style={{ height: '40px', objectFit: 'contain' }}
-          />
-          <img
-            src="/Screenshot_2026-09-17_163447-removebg-preview.png"
-            alt="Cirrus Logo Text"
-            style={{ height: '40px', objectFit: 'contain' }}
-          />
+  const NavDropdown = ({ title, items }) => {
+    return (
+      <li className="nav-item-dropdown">
+        <span className="nav-item-link">
+          {title}
+          <svg style={{marginLeft: '4px', marginTop: '2px'}} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </span>
+        <div className="dropdown-menu">
+          <ul>
+            {items.map((item, index) => (
+              <li key={index} className={item.subItems ? "has-submenu" : ""}>
+                <a href={`#${item.label.toLowerCase().replace(/ /g, '-')}`}>
+                  {item.label}
+                  {item.subItems && <svg style={{marginLeft: 'auto'}} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>}
+                </a>
+                {item.subItems && (
+                  <div className="sub-dropdown-menu">
+                    <ul>
+                      {item.subItems.map((sub, idx) => (
+                         <li key={idx}><a href={`#${sub.toLowerCase().replace(/ /g, '-')}`}>{sub}</a></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
+      </li>
+    );
+  };
+
+  return (
+    <nav className={`main-navbar ${scrolled ? 'scrolled' : ''}`}>
+      <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <img src="/62c249aa-a356-4182-abbb-497a1645be45-removebg-preview.png" alt="Cirrus Infosys Logo" style={{ height: '60px' }} />
+        <img src="/fcc98efb-9f15-4914-9550-8d1fbc7d9ff0-removebg-preview.png" alt="Cirrus Infosys Text" style={{ height: '44px' }} />
       </div>
-      <ul className="new-nav-links">
-        <NavLink href="#" isActive={true}>Home</NavLink>
-        <NavLink href="#about">About</NavLink>
-        <NavLink href="#projects">Projects</NavLink>
-        <NavLink href="#article">Article</NavLink>
+
+      <div className="mobile-toggle" onClick={toggleMenu}>
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+      </div>
+
+      <ul className={`nav-links ${isOpen ? 'mobile-open' : ''}`}>
+        <NavLink href="#">Home</NavLink>
+        <NavLink href="#about">About Us</NavLink>
+        <NavDropdown title="Services" items={[
+          {
+            label: 'MLM Software', 
+            subItems: ['Binary plan', 'Matrix plan', 'ROI plan', 'Level plan', 'Crowd funding', 'Crypto software']
+          }, 
+          { 
+            label: 'Digital Marketing',
+            subItems: ['SEO', 'Social media marketing', 'Meta Ads', 'Google Ads', 'Lead generation', 'Whatsapp marketing', 'Sms & text Message marketing', 'RCS marketing', 'Content marketing', 'Email marketing', 'Performance tracking']
+          }
+        ]} />
+        <NavLink href="#blog">Blog</NavLink>
         <NavLink href="#contact">Contact</NavLink>
       </ul>
+      
       <div className="nav-actions">
-        <a 
-          href="#start" 
-          className="start-project-btn"
-          style={{
-            transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
-            display: 'inline-block'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-3px)';
-            e.currentTarget.style.boxShadow = '0 10px 20px rgba(234, 88, 12, 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
-        >
-          Start a project
+        <a href="#consult" className="btn-outline-orange">
+          Get a Consult <span className="arrow-right">&rarr;</span>
         </a>
       </div>
     </nav>
